@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
+    'drf_yasg',
     # my_apps
     'applications.account',
     'applications.cart',
@@ -149,5 +151,11 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication'
-    ]
+    ],
+
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'PAGE_SIZE': 1
+
+    # 'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permission.IsAuthenticated']
+
 }
