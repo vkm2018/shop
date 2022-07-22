@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 # Create your models here.
@@ -41,5 +42,45 @@ class Product(models.Model):
 class Image(models.Model):
     image = models.ImageField(upload_to='products')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+
+
+class Like(models.Model):
+    """
+    Модель Лайк
+    """
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes', verbose_name='Владелец лайка')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='likes', verbose_name='Товар')
+    like = models.BooleanField('лайк', default=False)
+
+    def __str__(self):
+        return f'{self.product}{self.like}'
+
+
+class Rating(models.Model):
+    """
+    Модель рейтинга
+    """
+    serializer = ...
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings',  verbose_name='Владелец рейтинга')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings', verbose_name='Товар')
+    rating = models.SmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=0)
+    def __str__(self):
+        return f'{self.product} {self.rating}'
+
+class Comment(models.Model):
+    """
+    Модель комментарии
+    """
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    product = models.ForeignKey(Product,on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+
+
+
+
+
 
 
